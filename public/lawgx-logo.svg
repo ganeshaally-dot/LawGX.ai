@@ -1,12 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 200" fill="none">
-  <rect width="760" height="200" fill="transparent"/>
-  <g fill="#26385F">
-    <path d="M32 38h22v97h54v22H32V38Z"/>
-    <path d="M152 157h-25l43-119h44l42 119h-24l-8-24h-63l-9 24Zm40-102-24 59h47l-23-59Z"/>
-    <path d="M265 38h22l24 88 24-88h42l25 88 23-88h22l-33 119h-24l-34-93-34 93h-24L265 38Z"/>
-    <path d="M577 97h61v9c0 34-23 55-60 55-39 0-67-27-67-64 0-38 30-64 69-64 22 0 40 8 53 24l-16 15c-10-11-22-17-38-17-26 0-45 18-45 42 0 25 18 43 44 43 21 0 35-10 39-25h-40V97Z"/>
-    <path d="M649 38h27l34 50 34-50h28l-48 68 50 51h-31l-33-36-33 36h-30l49-52-47-67Z"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1216 440" fill="none">
+  <rect width="1216" height="440" rx="16" fill="#1A1718"/>
+  <g fill="#F3F3F4">
+    <path d="M97 73h65v166h126v65H97V73Z"/>
+    <path d="M319 304h-84l78-231h96l78 231h-69l-13-39h-73l-13 39Zm49-151-25 67h50l-25-67Z"/>
+    <path d="M471 73h64l55 166 55-166h86l56 166 55-166h63l-83 231h-74l-60-164-60 164h-74L471 73Z"/>
+    <path d="M971 189h118v20c0 64-43 103-112 103-75 0-129-51-129-121 0-72 57-122 133-122 43 0 77 16 102 45l-41 42c-17-19-36-28-62-28-37 0-62 25-62 60 0 36 25 62 61 62 24 0 43-10 50-26h-58v-35Z"/>
+    <path d="M1013 73h78l54 83 54-83h79l-85 122 88 109h-82l-55-73-55 73h-81l88-109-83-122Z"/>
   </g>
-  <path d="M704 38h35l-33 50h-35l33-50Z" fill="#F2991B"/>
-  <text x="32" y="187" fill="#26385F" font-size="34" font-family="Segoe UI, Arial, sans-serif" font-weight="400" letter-spacing="0.4">Law | Governance | Execution</text>
+  <path d="M1125 73h68l-54 89h-68l54-89Z" fill="#F89A1C"/>
+  <text x="96" y="390" fill="#F3F3F4" font-size="74" font-family="Segoe UI, Arial, sans-serif" font-weight="300" letter-spacing="0.2">Law I Governance I Execution</text>
 </svg>
