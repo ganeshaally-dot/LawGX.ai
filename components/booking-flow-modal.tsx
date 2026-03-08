@@ -74,7 +74,7 @@ export function BookingFlowModal({ open, onClose }: BookingFlowModalProps) {
     `Matter summary: ${matterSummary || "Not provided"}`,
   ].join("\n");
 
-  const mailtoHref = `mailto:info@lawgx.ai?subject=${encodeURIComponent(`Consultation Request - ${fullName || "LawGX website"}`)}&body=${encodeURIComponent(summary)}`;
+  const mailtoHref = `mailto:support@lawgx.ai?subject=${encodeURIComponent(`Consultation Request - ${fullName || "LawGX website"}`)}&body=${encodeURIComponent(summary)}`;
   const whatsappHref = `https://wa.me/971553716225?text=${encodeURIComponent(summary)}`;
   const canSubmit = Boolean(fullName.trim() && email.trim() && selectedDay && selectedTime);
 
@@ -192,8 +192,8 @@ export function BookingFlowModal({ open, onClose }: BookingFlowModalProps) {
                     <p className="mt-1 text-white">{selectedTime}</p>
                   </div>
                   <div>
-                    <p className="text-xs uppercase tracking-[0.18em] text-[var(--text-muted)]">Format</p>
-                    <p className="mt-1 text-white">Video call / intake consultation</p>
+                    <p className="text-xs uppercase tracking-[0.18em] text-[var(--text-muted)]">Destination</p>
+                    <p className="mt-1 text-white">support@lawgx.ai</p>
                   </div>
                 </div>
               </div>
@@ -215,7 +215,7 @@ export function BookingFlowModal({ open, onClose }: BookingFlowModalProps) {
                   canSubmit ? "bg-white text-slate-950 hover:bg-[var(--accent)]" : "pointer-events-none bg-white/10 text-[var(--text-muted)]",
                 )}
               >
-                Request Appointment by Email
+                Send Booking Request
                 <ArrowRight className="h-4 w-4" />
               </a>
 

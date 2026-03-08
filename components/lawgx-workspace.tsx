@@ -1,17 +1,16 @@
 "use client";
 
 import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from "react";
-import { LawGXLogo } from "@/components/lawgx-logo";
-import { BookingFlowModal } from "@/components/booking-flow-modal";
-import { CTA_PANEL_ACTIONS, navigationGroups, starterPrompts } from "@/lib/constants";
+import { CTA_PANEL_ACTIONS, navigationGroups } from "@/lib/constants";
 import type { ChatMessage } from "@/lib/types";
 import { createMessage, formatTimestamp } from "@/lib/utils";
+import { BookingFlowModal } from "@/components/booking-flow-modal";
 import { ChatComposer } from "@/components/chat-composer";
 import { ChatPanel } from "@/components/chat-panel";
+import { LawGXLogo } from "@/components/lawgx-logo";
 import { MobileSidebarDrawer } from "@/components/mobile-sidebar-drawer";
 import { QuickActionsPanel } from "@/components/quick-actions-panel";
 import { Sidebar } from "@/components/sidebar";
-import { StarterPrompts } from "@/components/starter-prompts";
 
 function buildWelcomeMessage() {
   return createMessage(
@@ -212,29 +211,12 @@ export function LawGXWorkspace() {
           </div>
 
           <div ref={viewportRef} className="scrollbar-thin flex-1 overflow-y-auto px-4 pb-44 pt-6 sm:px-6">
-            {!hasConversation ? (
-              <div className="mx-auto flex h-full max-w-4xl flex-col justify-center">
-                <div className="animate-fade-up rounded-[30px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02))] p-8 shadow-2xl shadow-black/20 sm:p-10">
-                  <LawGXLogo className="max-w-[320px]" />
-                  <h2 className="mt-8 max-w-2xl font-display text-4xl text-white sm:text-5xl">
-                    Chat-first legal intake, with consultation pathways when you need them.
-                  </h2>
-                  <p className="mt-5 max-w-3xl text-base leading-7 text-[var(--text-secondary)]">
-                    Ask for general legal information, compare structures, or prepare your intake. When
-                    your matter becomes case-specific, open the three-dot menu to book a consultation,
-                    request a proposal, upload documents, or continue on WhatsApp.
-                  </p>
-                  <StarterPrompts prompts={starterPrompts} onSelect={submitMessage} />
-                </div>
-
-                <div className="mt-8">
-                  <ChatPanel messages={messages} isLoading={isLoading} />
-                </div>
-              </div>
-            ) : (
+            {hasConversation ? (
               <div className="mx-auto max-w-4xl">
                 <ChatPanel messages={messages} isLoading={isLoading} />
               </div>
+            ) : (
+              <div className="mx-auto max-w-4xl" />
             )}
           </div>
 
