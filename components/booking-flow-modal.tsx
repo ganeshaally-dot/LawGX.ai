@@ -102,10 +102,19 @@ export function BookingFlowModal({ open, onClose }: BookingFlowModalProps) {
         }),
       });
 
-      const payload = (await response.json()) as { success?: boolean; error?: string };
+      let payload: { success?: boolean; error?: string } = {};
+
+      try {
+        payload = (await response.json()) as { success?: boolean; error?: string };
+      } catch {
+        payload = {};
+      }
 
       if (!response.ok || !payload.success) {
-        throw new Error(payload.error || "The booking request could not be submitted.");
+        throw new Error(
+          payload.error ||
+            "The booking request could not be submitted. If this continues, please check the latest Vercel deployment logs.",
+        );
       }
 
       setStatus("success");
