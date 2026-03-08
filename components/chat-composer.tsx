@@ -21,21 +21,21 @@ export function ChatComposer({
   return (
     <form
       onSubmit={onSubmit}
-      className="rounded-[30px] border border-[var(--accent)]/20 bg-[linear-gradient(180deg,rgba(12,24,49,0.98),rgba(9,18,38,0.98))] p-3 shadow-[0_24px_70px_rgba(0,0,0,0.42)]"
+      className="rounded-[30px] border border-[var(--accent)]/18 bg-[linear-gradient(180deg,rgba(18,18,18,0.98),rgba(12,12,12,0.98))] p-3 shadow-[0_24px_70px_rgba(0,0,0,0.42)]"
     >
       <div className="px-3 pb-2 pt-1">
-        <p className="text-[11px] uppercase tracking-[0.24em] text-[var(--accent-soft)]">Ask LawGX AI</p>
+        <p className="text-[11px] uppercase tracking-[0.24em] text-[var(--accent-soft)]">Initial Matter Description</p>
       </div>
 
-      <div className="flex items-end gap-3 rounded-[24px] border border-white/8 bg-[rgba(5,11,24,0.55)] px-2 py-2">
+      <div className="flex items-end gap-3 rounded-[24px] border border-white/8 bg-[rgba(5,5,5,0.55)] px-2 py-2">
         <textarea
           value={value}
           onChange={(event) => onChange(event.target.value)}
           onKeyDown={onKeyDown}
-          placeholder="Type your legal information or intake question here..."
+          placeholder="Set out the facts, counterparties, documents involved, and the outcome you are seeking..."
           rows={1}
           disabled={disabled}
-          className="max-h-48 min-h-[72px] flex-1 resize-y bg-transparent px-3 py-3 text-[15px] leading-7 text-white outline-none placeholder:text-[var(--text-muted)]"
+          className="max-h-56 min-h-[78px] flex-1 resize-y bg-transparent px-3 py-3 text-[15px] leading-7 text-white outline-none placeholder:text-[var(--text-muted)]"
         />
 
         <button

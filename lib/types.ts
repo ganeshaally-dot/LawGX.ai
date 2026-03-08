@@ -9,25 +9,19 @@ export type ChatMessage = {
   timestamp: string;
 };
 
-export type NavigationItem = {
-  label: string;
-  href: string;
-  icon: LucideIcon;
-};
-
-export type NavigationMetaItem = {
-  label: string;
-  href: string;
-  icon: "about" | "privacy" | "terms";
-};
-
-export type NavigationGroup = {
-  primary: NavigationItem[];
-  secondary: NavigationMetaItem[];
-};
+export type CTAActionKind = "consultation" | "upload" | "whatsapp" | "proposal";
 
 export type CTAAction = {
   label: string;
   href: string;
-  kind: "consultation" | "upload" | "whatsapp" | "proposal";
+  kind: CTAActionKind;
+  icon: LucideIcon;
+  description: string;
+};
+
+export type MatterAssessment = {
+  matterType: string;
+  jurisdiction: string;
+  objective: string;
+  urgency: string;
 };

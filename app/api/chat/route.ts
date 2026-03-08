@@ -1,7 +1,8 @@
 import OpenAI from "openai";
 import { NextResponse } from "next/server";
 import { lawgxSystemInstruction } from "@/lib/constants";
-import type { ChatMessage } from "@/lib/types";
+import type { ChatMessage, MatterAssessment } from "@/lib/types";
+import { buildAssessmentContext } from "@/lib/utils";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -19,8 +20,14 @@ export async function POST(request: Request) {
   });
 
   try {
-    const body = (await request.json()) as { messages?: ChatMessage[] };
+    const body = (await request.json()) as { messages?: ChatMessage[]; assessment?: MatterAssessment };
     const messages = Array.isArray(body.messages) ? body.messages : [];
+    const assessmentContext = buildAssessmentContext(body.assessment ?? {
+      matterType: "",
+      jurisdiction: "",
+      objective: "",
+      urgency: "",
+    });
 
     const sanitizedInput = messages
       .filter(
@@ -39,10 +46,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "No valid messages were provided." }, { status: 400 });
     }
 
+    const input = assessmentContext
+      ? [{ role: "user" as const, content: assessmentContext }, ...sanitizedInput]
+      : sanitizedInput;
+
     const response = await client.responses.create({
       model: "gpt-5-mini",
       instructions: lawgxSystemInstruction,
-      input: sanitizedInput,
+      input,
     });
 
     const output = response.output_text?.trim();
@@ -61,7 +72,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         error:
-          "LawGX AI could not complete this request. Please try again, or book a consultation for urgent matters.",
+          "LawGX AI could not complete this advisory review right now. Please try again, or escalate to a LawGX consultation for urgent matters.",
       },
       { status: 500 },
     );

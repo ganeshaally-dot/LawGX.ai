@@ -5,13 +5,13 @@ const footerLinks = [
   { label: "About", href: "#about" },
   { label: "Privacy", href: "#privacy" },
   { label: "Terms", href: "#terms" },
-  { label: "WhatsApp", href: "https://wa.me/971553716225" },
+  { label: "WhatsApp", href: "https://wa.me/971553716225?text=Hello%20LawGX%2C%20I%20would%20like%20assistance%20with%20a%20legal%20or%20commercial%20matter." },
 ];
 
 export default function Home() {
   return (
     <main className="relative min-h-screen overflow-hidden bg-transparent">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(248,154,28,0.1),transparent_24%),radial-gradient(circle_at_right,rgba(21,53,101,0.18),transparent_24%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(198,163,102,0.08),transparent_22%),radial-gradient(circle_at_right,rgba(70,70,70,0.1),transparent_24%)]" />
 
       <section className="relative px-2 pb-4 pt-2 sm:px-4 sm:pb-5 sm:pt-4 lg:px-6">
         <div className="mx-auto max-w-[1600px]">

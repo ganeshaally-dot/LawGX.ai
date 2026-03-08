@@ -1,18 +1,23 @@
 "use client";
 
-import Link from "next/link";
 import { CircleHelp, FileText, Shield, X } from "lucide-react";
 import { LawGXLogo } from "@/components/lawgx-logo";
-import type { NavigationGroup } from "@/lib/types";
+import type { CTAAction, CTAActionKind } from "@/lib/types";
+
+const supportLinks = [
+  { label: "About", href: "#about", icon: CircleHelp },
+  { label: "Privacy", href: "#privacy", icon: Shield },
+  { label: "Terms", href: "#terms", icon: FileText },
+];
 
 type MobileSidebarDrawerProps = {
   open: boolean;
   onClose: () => void;
-  onNewChat: () => void;
-  items: NavigationGroup;
+  onAction: (kind: CTAActionKind) => void;
+  actions: CTAAction[];
 };
 
-export function MobileSidebarDrawer({ open, onClose, onNewChat, items }: MobileSidebarDrawerProps) {
+export function MobileSidebarDrawer({ open, onClose, onAction, actions }: MobileSidebarDrawerProps) {
   return (
     <div
       className={`fixed inset-0 z-50 transition ${open ? "pointer-events-auto" : "pointer-events-none"}`}
@@ -24,7 +29,7 @@ export function MobileSidebarDrawer({ open, onClose, onNewChat, items }: MobileS
       />
 
       <aside
-        className={`absolute left-0 top-0 flex h-full w-[88%] max-w-[340px] flex-col border-r border-white/10 bg-[var(--sidebar)] p-5 shadow-2xl shadow-black/50 transition-transform duration-300 ${
+        className={`absolute left-0 top-0 flex h-full w-[88%] max-w-[360px] flex-col border-r border-white/10 bg-[var(--sidebar)] p-5 shadow-2xl shadow-black/50 transition-transform duration-300 ${
           open ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -40,44 +45,43 @@ export function MobileSidebarDrawer({ open, onClose, onNewChat, items }: MobileS
           </button>
         </div>
 
-        <button
-          type="button"
-          onClick={onNewChat}
-          className="mt-6 rounded-2xl border border-[var(--accent)]/25 bg-[rgba(248,154,28,0.08)] px-4 py-3 text-left text-sm font-medium text-white"
-        >
-          New Chat
-        </button>
+        <div className="mt-8 space-y-2">
+          {actions.map((action) => {
+            const Icon = action.icon;
+            return (
+              <button
+                key={action.kind}
+                type="button"
+                onClick={() => {
+                  onAction(action.kind);
+                  onClose();
+                }}
+                className="flex w-full items-start gap-3 rounded-2xl border border-white/8 bg-white/[0.03] px-3 py-3 text-left transition hover:border-[var(--accent)]/30 hover:bg-white/[0.05]"
+              >
+                <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-black/20 text-[var(--accent)]">
+                  <Icon className="h-4 w-4" />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-white">{action.label}</p>
+                  <p className="mt-1 text-xs leading-5 text-[var(--text-muted)]">{action.description}</p>
+                </div>
+              </button>
+            );
+          })}
+        </div>
 
-        <nav className="mt-8 flex-1 space-y-2">
-          {items.primary.map(({ label, href, icon: Icon }) => (
-            <Link
+        <div className="mt-auto border-t border-white/8 pt-4">
+          {supportLinks.map(({ label, href, icon: Icon }) => (
+            <a
               key={label}
               href={href}
               onClick={onClose}
-              className="flex items-center gap-3 rounded-2xl px-3 py-3 text-sm text-[var(--text-secondary)] transition hover:bg-white/6 hover:text-white"
+              className="flex items-center gap-3 rounded-2xl px-3 py-3 text-sm text-[var(--text-muted)] transition hover:bg-white/6 hover:text-white"
             >
-              <Icon className="h-4 w-4 text-[var(--accent)]" />
+              <Icon className="h-4 w-4" />
               <span>{label}</span>
-            </Link>
+            </a>
           ))}
-        </nav>
-
-        <div className="border-t border-white/8 pt-4">
-          {items.secondary.map(({ label, href, icon }) => {
-            const Icon = icon === "about" ? CircleHelp : icon === "privacy" ? Shield : FileText;
-
-            return (
-              <Link
-                key={label}
-                href={href}
-                onClick={onClose}
-                className="flex items-center gap-3 rounded-2xl px-3 py-3 text-sm text-[var(--text-muted)] transition hover:bg-white/6 hover:text-white"
-              >
-                <Icon className="h-4 w-4" />
-                <span>{label}</span>
-              </Link>
-            );
-          })}
         </div>
       </aside>
     </div>

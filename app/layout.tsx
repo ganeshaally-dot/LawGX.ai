@@ -2,14 +2,14 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "LawGX AI | Legal Information & Intake Assistant",
+  title: "LawGX AI | Preliminary Legal Guidance & Matter Assessment",
   description:
-    "Premium legal-tech assistant for corporate structuring, governance, disputes, and cross-border business matters.",
+    "LawGX AI provides preliminary legal guidance, structured matter assessment, and consultation-first advisory review for UAE and cross-border business matters.",
   metadataBase: new URL("https://www.lawgx.ai"),
   openGraph: {
-    title: "LawGX AI | Legal Information & Intake Assistant",
+    title: "LawGX AI | Preliminary Legal Guidance & Matter Assessment",
     description:
-      "Premium legal-tech assistant for corporate structuring, governance, disputes, and cross-border business matters.",
+      "Structured matter assessment and consultation-first advisory review for UAE and cross-border business matters.",
     url: "https://www.lawgx.ai",
     siteName: "LawGX AI",
     type: "website",
@@ -24,9 +24,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "LawGX AI | Legal Information & Intake Assistant",
+    title: "LawGX AI | Preliminary Legal Guidance & Matter Assessment",
     description:
-      "Premium legal-tech assistant for corporate structuring, governance, disputes, and cross-border business matters.",
+      "Structured matter assessment and consultation-first advisory review for UAE and cross-border business matters.",
     images: ["/lawgx-logo.svg"],
   },
   icons: {
