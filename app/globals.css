@@ -1,0 +1,159 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #071018;
+  --bg-elevated: #0d1622;
+  --panel: rgba(12, 18, 28, 0.84);
+  --panel-strong: rgba(20, 28, 40, 0.96);
+  --sidebar: rgba(10, 15, 23, 0.88);
+  --text-primary: #f5f7fb;
+  --text-secondary: #b6c0d1;
+  --text-muted: #7d8797;
+  --accent: #c4a46b;
+  --accent-soft: #e5d1a6;
+  --font-sans: "Aptos", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background:
+    radial-gradient(circle at top, rgba(196, 164, 107, 0.12), transparent 25%),
+    linear-gradient(180deg, #08111a 0%, #050b12 100%);
+}
+
+body {
+  min-height: 100vh;
+  font-family: var(--font-sans), sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+::selection {
+  background: rgba(196, 164, 107, 0.26);
+  color: white;
+}
+
+.font-display {
+  font-family: var(--font-display), serif;
+}
+
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(196, 164, 107, 0.35) transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 10px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(196, 164, 107, 0.25);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.prose-lawgx {
+  color: var(--text-secondary);
+  font-size: 0.96rem;
+  line-height: 1.8;
+}
+
+.prose-lawgx p {
+  margin: 0;
+}
+
+.prose-lawgx p + p,
+.prose-lawgx ul + p,
+.prose-lawgx ol + p,
+.prose-lawgx p + ul,
+.prose-lawgx p + ol,
+.prose-lawgx ul + ul,
+.prose-lawgx ol + ol {
+  margin-top: 0.9rem;
+}
+
+.prose-lawgx ul,
+.prose-lawgx ol {
+  padding-left: 1.15rem;
+}
+
+.prose-lawgx li + li {
+  margin-top: 0.35rem;
+}
+
+.prose-lawgx strong {
+  color: white;
+  font-weight: 600;
+}
+
+.prose-lawgx a {
+  color: var(--accent-soft);
+  text-decoration: underline;
+}
+
+.prose-lawgx code {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 0.5rem;
+  padding: 0.15rem 0.4rem;
+  color: white;
+}
+
+.prose-lawgx pre {
+  overflow-x: auto;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+.animate-fade-up {
+  animation: fade-up 0.5s ease forwards;
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 1.6s ease-in-out infinite;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: translateY(0);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
