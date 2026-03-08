@@ -16,7 +16,8 @@
     "react": "latest",
     "react-dom": "latest",
     "react-markdown": "^10.1.0",
-    "remark-gfm": "^4.0.1"
+    "remark-gfm": "^4.0.1",
+    "resend": "^4.6.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
