@@ -7,24 +7,12 @@ import { createMessage, formatTimestamp } from "@/lib/utils";
 import { BookingFlowModal } from "@/components/booking-flow-modal";
 import { ChatComposer } from "@/components/chat-composer";
 import { ChatPanel } from "@/components/chat-panel";
-import { LawGXLogo } from "@/components/lawgx-logo";
 import { MobileSidebarDrawer } from "@/components/mobile-sidebar-drawer";
 import { QuickActionsPanel } from "@/components/quick-actions-panel";
 import { Sidebar } from "@/components/sidebar";
 
-function buildWelcomeMessage() {
-  return createMessage(
-    "assistant",
-    [
-      "Welcome to **LawGX AI**.",
-      "I can help with general legal information and intake support for cross-border business matters, including corporate structuring, governance, disputes, and debt recovery intake.",
-      "For case-specific legal advice, formal engagement with LawGX is required.",
-    ].join("\n\n"),
-  );
-}
-
 export function LawGXWorkspace() {
-  const [messages, setMessages] = useState<ChatMessage[]>(() => [buildWelcomeMessage()]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
@@ -35,7 +23,7 @@ export function LawGXWorkspace() {
   const abortControllerRef = useRef<AbortController | null>(null);
   const activeRequestIdRef = useRef(0);
 
-  const hasConversation = messages.length > 1;
+  const hasConversation = messages.length > 0;
 
   useEffect(() => {
     const viewport = viewportRef.current;
@@ -57,7 +45,7 @@ export function LawGXWorkspace() {
     activeRequestIdRef.current += 1;
     abortControllerRef.current?.abort();
     abortControllerRef.current = null;
-    setMessages([buildWelcomeMessage()]);
+    setMessages([]);
     setInput("");
     setIsLoading(false);
     setIsMobileSidebarOpen(false);
@@ -155,8 +143,8 @@ export function LawGXWorkspace() {
 
   return (
     <>
-      <div className="relative grid min-h-[min(920px,calc(100vh-2rem))] overflow-hidden rounded-[32px] border border-white/10 bg-[rgba(5,10,17,0.78)] shadow-[0_40px_120px_rgba(0,0,0,0.55)] backdrop-blur-xl xl:grid-cols-[auto_minmax(0,1fr)]">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(248,154,28,0.10),transparent_26%),radial-gradient(circle_at_bottom_right,rgba(70,92,132,0.10),transparent_24%)]" />
+      <div className="relative grid min-h-[calc(100vh-5rem)] overflow-hidden rounded-[28px] border border-white/10 bg-[rgba(6,14,30,0.88)] shadow-[0_32px_110px_rgba(0,0,0,0.48)] backdrop-blur-xl xl:grid-cols-[auto_minmax(0,1fr)]">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(248,154,28,0.09),transparent_20%),radial-gradient(circle_at_right,rgba(19,48,91,0.22),transparent_28%)]" />
 
         <Sidebar
           collapsed={isSidebarCollapsed}
@@ -173,23 +161,17 @@ export function LawGXWorkspace() {
           items={navigationGroups}
         />
 
-        <div className="relative flex min-h-[75vh] flex-col border-x border-white/8 bg-[linear-gradient(180deg,rgba(7,12,18,0.88),rgba(8,13,20,0.72))] xl:min-h-full">
-          <div className="border-b border-white/8 px-5 py-4 sm:px-6">
+        <div className="relative flex min-h-[75vh] flex-col bg-[linear-gradient(180deg,rgba(8,18,40,0.96),rgba(6,13,28,0.92))] xl:min-h-full">
+          <div className="border-b border-white/8 px-4 py-3 sm:px-5">
             <div className="flex items-center justify-between gap-4">
-              <div className="flex items-center gap-4">
-                <div className="hidden sm:block">
-                  <LawGXLogo compact />
-                </div>
-                <div>
-                  <p className="text-xs uppercase tracking-[0.3em] text-[var(--accent-soft)]">LawGX AI</p>
-                  <h1 className="mt-1 text-xl font-semibold text-white sm:text-2xl">Legal Information & Intake Assistant</h1>
-                  <p className="mt-2 max-w-2xl text-sm text-[var(--text-secondary)]">
-                    General legal information and intake support for cross-border business matters.
-                  </p>
-                </div>
+              <div className="min-w-0">
+                <p className="text-[11px] uppercase tracking-[0.32em] text-[var(--accent-soft)]">LawGX AI</p>
+                <p className="mt-1 truncate text-sm text-[var(--text-secondary)] sm:text-base">
+                  General legal information and intake support for cross-border business matters.
+                </p>
               </div>
 
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
                 <QuickActionsPanel
                   open={isActionsOpen}
                   onToggle={() => setIsActionsOpen((current) => !current)}
@@ -210,21 +192,25 @@ export function LawGXWorkspace() {
             </div>
           </div>
 
-          <div ref={viewportRef} className="scrollbar-thin flex-1 overflow-y-auto px-4 pb-44 pt-6 sm:px-6">
+          <div ref={viewportRef} className="scrollbar-thin flex-1 overflow-y-auto px-4 pb-56 pt-6 sm:px-6 sm:pb-60">
             {hasConversation ? (
               <div className="mx-auto max-w-4xl">
                 <ChatPanel messages={messages} isLoading={isLoading} />
               </div>
             ) : (
-              <div className="mx-auto max-w-4xl" />
+              <div className="mx-auto flex h-full max-w-4xl flex-col justify-end pb-10 sm:pb-16">
+                <div className="max-w-xl text-sm leading-7 text-[var(--text-muted)]">
+                  Ask a question below to begin.
+                </div>
+              </div>
             )}
           </div>
 
-          <div className="absolute inset-x-0 bottom-0 border-t border-white/8 bg-[linear-gradient(180deg,rgba(8,13,20,0.2),rgba(8,13,20,0.95)_30%)] px-4 pb-4 pt-6 backdrop-blur-xl sm:px-6">
+          <div className="absolute inset-x-0 bottom-0 border-t border-white/8 bg-[linear-gradient(180deg,rgba(6,13,28,0.12),rgba(6,13,28,0.98)_26%)] px-3 pb-3 pt-5 backdrop-blur-xl sm:px-5 sm:pb-5">
             <div className="mx-auto max-w-4xl">
               <div className="mb-3 flex flex-col gap-2 text-xs text-[var(--text-muted)] sm:flex-row sm:items-center sm:justify-between">
                 <p>This assistant provides general information only and does not constitute legal advice.</p>
-                <p>Enter to send. Shift + Enter for a new line.</p>
+                <p>Use the three-dot menu for booking, WhatsApp, and support options.</p>
               </div>
               <ChatComposer
                 value={input}
@@ -234,7 +220,7 @@ export function LawGXWorkspace() {
                 disabled={isLoading}
               />
               <div className="mt-3 flex items-center justify-between gap-4 text-xs text-[var(--text-muted)]">
-                <p>Open the three-dot menu to book, upload documents, request a proposal, or WhatsApp LawGX.</p>
+                <p>Enter to send. Shift + Enter for a new line.</p>
                 <p>{formatTimestamp(new Date().toISOString())}</p>
               </div>
             </div>

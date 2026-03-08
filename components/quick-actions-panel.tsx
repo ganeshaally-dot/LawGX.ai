@@ -32,7 +32,7 @@ export function QuickActionsPanel({ open, onToggle, onBookConsultation, actions 
 
       <div
         className={cn(
-          "absolute right-0 top-14 z-30 w-[320px] rounded-[28px] border border-white/10 bg-[linear-gradient(180deg,rgba(10,14,22,0.98),rgba(9,12,19,0.98))] p-4 shadow-2xl shadow-black/50 transition duration-200",
+          "absolute right-0 top-14 z-30 w-[min(340px,calc(100vw-2rem))] rounded-[28px] border border-white/10 bg-[linear-gradient(180deg,rgba(9,18,38,0.99),rgba(7,14,28,0.99))] p-4 shadow-2xl shadow-black/50 transition duration-200",
           open ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-2 opacity-0",
         )}
       >
@@ -56,7 +56,7 @@ export function QuickActionsPanel({ open, onToggle, onBookConsultation, actions 
                   </div>
                   <div>
                     <p className="text-sm font-semibold text-white">{action.label}</p>
-                    <p className="text-xs text-[var(--text-muted)]">Calendly-style scheduling flow</p>
+                    <p className="text-xs text-[var(--text-muted)]">Private booking request</p>
                   </div>
                 </div>
                 <ArrowUpRight className="h-4 w-4 text-[var(--text-muted)]" />
@@ -76,7 +76,7 @@ export function QuickActionsPanel({ open, onToggle, onBookConsultation, actions 
                   <div>
                     <p className="text-sm font-semibold text-white">{action.label}</p>
                     <p className="text-xs text-[var(--text-muted)]">
-                      {action.kind === "whatsapp" ? "Open direct WhatsApp conversation" : "Open intake pathway"}
+                      {action.kind === "whatsapp" ? "Open direct WhatsApp conversation" : "Open support path"}
                     </p>
                   </div>
                 </div>

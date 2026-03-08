@@ -29,15 +29,12 @@ export function Sidebar({ collapsed, onCollapseToggle, onMobileOpen, onNewChat, 
         <aside
           className={cn(
             "flex h-full flex-col border-r border-white/8 bg-[var(--sidebar)] transition-all duration-300",
-            collapsed ? "w-[92px]" : "w-[290px]",
+            collapsed ? "w-[92px]" : "w-[280px]",
           )}
         >
           <div className="flex items-center justify-between gap-3 px-4 pb-4 pt-5">
             <div className={cn("overflow-hidden transition-all", collapsed ? "w-0 opacity-0" : "w-full opacity-100")}>
-              <LawGXLogo className="max-w-[168px]" />
-              <p className="mt-3 text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)]">
-                General legal information and intake support
-              </p>
+              <LawGXLogo className="max-w-[172px]" />
             </div>
 
             {collapsed ? <LawGXLogo compact className="shrink-0" /> : null}
@@ -57,7 +54,7 @@ export function Sidebar({ collapsed, onCollapseToggle, onMobileOpen, onNewChat, 
               type="button"
               onClick={onNewChat}
               className={cn(
-                "flex w-full items-center gap-3 rounded-2xl border border-[var(--accent)]/20 bg-[var(--accent)]/10 px-4 py-3 text-sm font-medium text-white transition hover:border-[var(--accent)]/40 hover:bg-[var(--accent)]/15",
+                "flex w-full items-center gap-3 rounded-2xl border border-[var(--accent)]/25 bg-[rgba(248,154,28,0.08)] px-4 py-3 text-sm font-medium text-white transition hover:border-[var(--accent)]/45 hover:bg-[rgba(248,154,28,0.14)]",
                 collapsed && "justify-center px-2",
               )}
             >
@@ -68,7 +65,7 @@ export function Sidebar({ collapsed, onCollapseToggle, onMobileOpen, onNewChat, 
 
           <nav className="mt-6 flex-1 px-3">
             <p className={cn("px-3 text-[11px] uppercase tracking-[0.28em] text-[var(--text-muted)]", collapsed && "text-center")}>
-              {collapsed ? "AI" : "Explore"}
+              {collapsed ? "AI" : "Menu"}
             </p>
 
             <div className="mt-3 space-y-1">
@@ -91,8 +88,7 @@ export function Sidebar({ collapsed, onCollapseToggle, onMobileOpen, onNewChat, 
           <div className="border-t border-white/8 px-3 py-4">
             <div className="space-y-1">
               {items.secondary.map(({ label, href, icon }) => {
-                const Icon =
-                  icon === "about" ? CircleHelp : icon === "privacy" ? Shield : FileText;
+                const Icon = icon === "about" ? CircleHelp : icon === "privacy" ? Shield : FileText;
 
                 return (
                   <Link
@@ -118,7 +114,7 @@ export function Sidebar({ collapsed, onCollapseToggle, onMobileOpen, onNewChat, 
           <LawGXLogo compact />
           <div>
             <p className="text-sm font-semibold text-white">LawGX AI</p>
-            <p className="text-xs text-[var(--text-secondary)]">Law | Governance | Execution</p>
+            <p className="text-xs text-[var(--text-secondary)]">General legal information and intake support</p>
           </div>
         </div>
 

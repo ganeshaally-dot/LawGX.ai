@@ -1,16 +1,16 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #071018;
-  --bg-elevated: #0d1622;
-  --panel: rgba(12, 18, 28, 0.84);
-  --panel-strong: rgba(20, 28, 40, 0.96);
-  --sidebar: rgba(10, 15, 23, 0.88);
-  --text-primary: #f5f7fb;
-  --text-secondary: #b6c0d1;
-  --text-muted: #7d8797;
-  --accent: #c4a46b;
-  --accent-soft: #e5d1a6;
+  --bg: #071126;
+  --bg-elevated: #0b1730;
+  --panel: rgba(10, 21, 42, 0.9);
+  --panel-strong: rgba(12, 27, 52, 0.98);
+  --sidebar: rgba(7, 19, 40, 0.94);
+  --text-primary: #f4f7fb;
+  --text-secondary: #b8c4d8;
+  --text-muted: #7d8aa3;
+  --accent: #f89a1c;
+  --accent-soft: #ffcc85;
   --font-sans: "Aptos", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   --font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
 }
@@ -21,8 +21,8 @@
 
 html {
   background:
-    radial-gradient(circle at top, rgba(196, 164, 107, 0.12), transparent 25%),
-    linear-gradient(180deg, #08111a 0%, #050b12 100%);
+    radial-gradient(circle at top, rgba(248, 154, 28, 0.14), transparent 24%),
+    linear-gradient(180deg, #09122a 0%, #050a17 100%);
 }
 
 body {
@@ -42,7 +42,7 @@ textarea {
 }
 
 ::selection {
-  background: rgba(196, 164, 107, 0.26);
+  background: rgba(248, 154, 28, 0.28);
   color: white;
 }
 
@@ -52,7 +52,7 @@ textarea {
 
 .scrollbar-thin {
   scrollbar-width: thin;
-  scrollbar-color: rgba(196, 164, 107, 0.35) transparent;
+  scrollbar-color: rgba(248, 154, 28, 0.35) transparent;
 }
 
 .scrollbar-thin::-webkit-scrollbar {
@@ -65,7 +65,7 @@ textarea {
 
 .scrollbar-thin::-webkit-scrollbar-thumb {
   border-radius: 999px;
-  background: rgba(196, 164, 107, 0.25);
+  background: rgba(248, 154, 28, 0.25);
   border: 2px solid transparent;
   background-clip: padding-box;
 }

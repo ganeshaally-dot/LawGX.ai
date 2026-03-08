@@ -24,15 +24,12 @@ export function MobileSidebarDrawer({ open, onClose, onNewChat, items }: MobileS
       />
 
       <aside
-        className={`absolute left-0 top-0 flex h-full w-[88%] max-w-[360px] flex-col border-r border-white/10 bg-[var(--sidebar)] p-5 shadow-2xl shadow-black/50 transition-transform duration-300 ${
+        className={`absolute left-0 top-0 flex h-full w-[88%] max-w-[340px] flex-col border-r border-white/10 bg-[var(--sidebar)] p-5 shadow-2xl shadow-black/50 transition-transform duration-300 ${
           open ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         <div className="flex items-start justify-between gap-4">
-          <div>
-            <LawGXLogo className="max-w-[180px]" />
-            <p className="mt-3 text-xs text-[var(--text-secondary)]">Law | Governance | Execution</p>
-          </div>
+          <LawGXLogo className="max-w-[180px]" />
           <button
             type="button"
             onClick={onClose}
@@ -46,7 +43,7 @@ export function MobileSidebarDrawer({ open, onClose, onNewChat, items }: MobileS
         <button
           type="button"
           onClick={onNewChat}
-          className="mt-6 rounded-2xl border border-[var(--accent)]/20 bg-[var(--accent)]/10 px-4 py-3 text-left text-sm font-medium text-white"
+          className="mt-6 rounded-2xl border border-[var(--accent)]/25 bg-[rgba(248,154,28,0.08)] px-4 py-3 text-left text-sm font-medium text-white"
         >
           New Chat
         </button>
