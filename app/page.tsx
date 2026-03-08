@@ -1,5 +1,6 @@
 import { ArrowUpRight, BadgeCheck, Building2, Gavel, Scale, ShieldCheck, Sparkles, Globe2, Handshake } from "lucide-react";
 import { LawGXWorkspace } from "@/components/lawgx-workspace";
+import { LawGXLogo } from "@/components/lawgx-logo";
 
 const practiceAreas = [
   {
@@ -59,6 +60,9 @@ export default function Home() {
 
       <section id="home" className="relative px-4 pb-8 pt-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-[1600px]">
+          <div className="mb-6 flex justify-center">
+            <LawGXLogo className="max-w-[420px]" />
+          </div>
           <LawGXWorkspace />
         </div>
       </section>
@@ -186,7 +190,9 @@ export default function Home() {
               <ArrowUpRight className="h-4 w-4" />
             </a>
             <a
-              href="#"
+              href="https://wa.me/971553716225"
+              target="_blank"
+              rel="noreferrer"
               className="inline-flex items-center justify-center gap-2 rounded-2xl border border-white/15 bg-black/15 px-5 py-4 text-sm font-semibold text-white transition hover:border-[var(--accent)]/40 hover:bg-white/8"
             >
               WhatsApp Us

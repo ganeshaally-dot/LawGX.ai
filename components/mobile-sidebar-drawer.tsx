@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { CircleHelp, FileText, Shield, X } from "lucide-react";
+import { LawGXLogo } from "@/components/lawgx-logo";
 import type { NavigationGroup } from "@/lib/types";
 
 type MobileSidebarDrawerProps = {
@@ -27,10 +28,10 @@ export function MobileSidebarDrawer({ open, onClose, onNewChat, items }: MobileS
           open ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="flex items-start justify-between">
+        <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.32em] text-[var(--accent-soft)]">LawGX</p>
-            <p className="mt-1 font-display text-3xl text-white">AI</p>
+            <LawGXLogo className="max-w-[180px]" />
+            <p className="mt-3 text-xs text-[var(--text-secondary)]">Law | Governance | Execution</p>
           </div>
           <button
             type="button"

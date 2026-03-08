@@ -6,11 +6,11 @@ import {
   ChevronRight,
   CircleHelp,
   FileText,
-  LayoutDashboard,
   Menu,
   MessageSquarePlus,
   Shield,
 } from "lucide-react";
+import { LawGXLogo } from "@/components/lawgx-logo";
 import type { NavigationGroup } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -32,11 +32,15 @@ export function Sidebar({ collapsed, onCollapseToggle, onMobileOpen, onNewChat, 
             collapsed ? "w-[92px]" : "w-[290px]",
           )}
         >
-          <div className="flex items-center justify-between px-4 pb-4 pt-5">
-            <div className={cn("overflow-hidden transition-all", collapsed ? "w-0 opacity-0" : "w-auto opacity-100")}>
-              <p className="text-xs uppercase tracking-[0.32em] text-[var(--accent-soft)]">LawGX</p>
-              <p className="mt-1 font-display text-2xl text-white">AI</p>
+          <div className="flex items-center justify-between gap-3 px-4 pb-4 pt-5">
+            <div className={cn("overflow-hidden transition-all", collapsed ? "w-0 opacity-0" : "w-full opacity-100")}>
+              <LawGXLogo className="max-w-[168px]" />
+              <p className="mt-3 text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)]">
+                General legal information and intake support
+              </p>
             </div>
+
+            {collapsed ? <LawGXLogo compact className="shrink-0" /> : null}
 
             <button
               type="button"
@@ -111,12 +115,10 @@ export function Sidebar({ collapsed, onCollapseToggle, onMobileOpen, onNewChat, 
 
       <div className="flex items-center justify-between border-b border-white/8 bg-[var(--sidebar)] px-4 py-3 xl:hidden">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
-            <LayoutDashboard className="h-4 w-4 text-[var(--accent)]" />
-          </div>
+          <LawGXLogo compact />
           <div>
-            <p className="text-xs uppercase tracking-[0.28em] text-[var(--accent-soft)]">LawGX AI</p>
-            <p className="text-sm text-[var(--text-secondary)]">Premium legal-tech intake</p>
+            <p className="text-sm font-semibold text-white">LawGX AI</p>
+            <p className="text-xs text-[var(--text-secondary)]">Law | Governance | Execution</p>
           </div>
         </div>
 

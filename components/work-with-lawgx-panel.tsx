@@ -26,11 +26,14 @@ export function WorkWithLawGXPanel({ actions }: WorkWithLawGXPanelProps) {
         <div className="mt-6 space-y-3">
           {actions.map((action) => {
             const Icon = iconMap[action.kind];
+            const isExternal = action.href.startsWith("http");
 
             return (
               <a
                 key={action.label}
                 href={action.href}
+                target={isExternal ? "_blank" : undefined}
+                rel={isExternal ? "noreferrer" : undefined}
                 className="group flex items-center justify-between rounded-2xl border border-white/10 bg-black/15 px-4 py-4 transition hover:border-[var(--accent)]/35 hover:bg-white/[0.05]"
               >
                 <div className="flex items-center gap-3">

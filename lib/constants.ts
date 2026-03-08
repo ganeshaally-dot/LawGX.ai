@@ -60,6 +60,6 @@ export const navigationGroups: NavigationGroup = {
 export const CTA_PANEL_ACTIONS: CTAAction[] = [
   { label: "Book Consultation", href: "#contact", kind: "consultation" },
   { label: "Upload Documents", href: "#contact", kind: "upload" },
-  { label: "WhatsApp Us", href: "#", kind: "whatsapp" },
+  { label: "WhatsApp Us", href: "https://wa.me/971553716225", kind: "whatsapp" },
   { label: "Request Proposal", href: "#contact", kind: "proposal" },
 ];

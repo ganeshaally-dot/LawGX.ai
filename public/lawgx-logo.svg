@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 200" fill="none">
+  <rect width="760" height="200" fill="transparent"/>
+  <g fill="#26385F">
+    <path d="M32 38h22v97h54v22H32V38Z"/>
+    <path d="M152 157h-25l43-119h44l42 119h-24l-8-24h-63l-9 24Zm40-102-24 59h47l-23-59Z"/>
+    <path d="M265 38h22l24 88 24-88h42l25 88 23-88h22l-33 119h-24l-34-93-34 93h-24L265 38Z"/>
+    <path d="M577 97h61v9c0 34-23 55-60 55-39 0-67-27-67-64 0-38 30-64 69-64 22 0 40 8 53 24l-16 15c-10-11-22-17-38-17-26 0-45 18-45 42 0 25 18 43 44 43 21 0 35-10 39-25h-40V97Z"/>
+    <path d="M649 38h27l34 50 34-50h28l-48 68 50 51h-31l-33-36-33 36h-30l49-52-47-67Z"/>
+  </g>
+  <path d="M704 38h35l-33 50h-35l33-50Z" fill="#F2991B"/>
+  <text x="32" y="187" fill="#26385F" font-size="34" font-family="Segoe UI, Arial, sans-serif" font-weight="400" letter-spacing="0.4">Law | Governance | Execution</text>
+</svg>

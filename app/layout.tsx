@@ -13,15 +13,24 @@ export const metadata: Metadata = {
     url: "https://www.lawgx.ai",
     siteName: "LawGX AI",
     type: "website",
+    images: [
+      {
+        url: "/lawgx-logo.svg",
+        width: 760,
+        height: 200,
+        alt: "LawGX logo",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "LawGX AI | Legal Information & Intake Assistant",
     description:
       "Premium legal-tech assistant for corporate structuring, governance, disputes, and cross-border business matters.",
+    images: ["/lawgx-logo.svg"],
   },
   icons: {
-    icon: "/icon.svg",
+    icon: "/lawgx-mark.svg",
   },
 };
 
