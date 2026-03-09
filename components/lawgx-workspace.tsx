@@ -233,29 +233,26 @@ export function LawGXWorkspace() {
           </div>
 
           <div ref={viewportRef} className="scrollbar-thin flex-1 overflow-y-auto px-4 py-5 sm:px-6 sm:pb-10">
-            <div className="mx-auto max-w-5xl space-y-5 pb-6">
+            <div className="mx-auto max-w-5xl space-y-6 pb-8">
               <MatterAssessmentPanel assessment={assessment} onChange={setAssessment} />
 
               {hasConversation ? (
-                <div className="max-w-4xl pb-2">
+                <div className="max-w-4xl pb-12">
                   <ChatPanel messages={messages} isLoading={isLoading} onOpenConsultation={openConsultation} />
                 </div>
               ) : (
-                <div className="rounded-[28px] border border-white/8 bg-[rgba(19,19,19,0.74)] px-5 py-6 sm:px-6">
-                  <p className="text-[11px] uppercase tracking-[0.26em] text-[var(--accent-soft)]">Initial Advisory Review</p>
-                  <p className="mt-3 max-w-3xl text-sm leading-7 text-[var(--text-secondary)] sm:text-[15px]">
-                    Use the structured selections above, then describe the issue below in plain language. LawGX AI will respond in a consultation-first format, identify the likely UAE pathway, and flag where formal review should take over.
-                  </p>
+                <div className="flex min-h-[26vh] items-center justify-center text-center text-[15px] text-[var(--text-muted)]">
+                  <p>Ask anything.</p>
                 </div>
               )}
             </div>
           </div>
 
-          <div className="sticky bottom-0 border-t border-white/8 bg-[linear-gradient(180deg,rgba(10,10,10,0.2),rgba(10,10,10,0.98)_20%)] px-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-4 backdrop-blur-xl sm:px-5 sm:pb-5">
+          <div className="sticky bottom-0 border-t border-white/8 bg-[linear-gradient(180deg,rgba(10,10,10,0.14),rgba(10,10,10,0.98)_20%)] px-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-4 backdrop-blur-xl sm:px-5 sm:pb-5">
             <div className="mx-auto max-w-5xl">
               <div className="mb-3 flex flex-col gap-2 text-xs text-[var(--text-muted)] sm:flex-row sm:items-center sm:justify-between">
                 <p>This interface provides preliminary guidance only and does not constitute legal advice.</p>
-                <p>{isMobileComposer ? "Use the Send button to submit your message." : "Press Enter to send on desktop. Shift + Enter adds a new line."}</p>
+                <p>{isMobileComposer ? "Use Send or the mic button to submit your message." : "Press Enter to send on desktop. Shift + Enter adds a new line."}</p>
               </div>
               <ChatComposer
                 value={input}

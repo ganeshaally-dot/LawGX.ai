@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { matterFlowOptions, matterTypeOptions, sharedMatterFollowUps } from "@/lib/constants";
+import { getMatterFlowOptions, matterTypeOptions } from "@/lib/constants";
 import type { MatterAssessment } from "@/lib/types";
 
 type MatterAssessmentPanelProps = {
@@ -13,6 +13,7 @@ const dependentKeys: Array<Exclude<keyof MatterAssessment, "matterType">> = [
   "subType",
   "partyRole",
   "transactionType",
+  "detailType",
   "objective",
   "urgency",
 ];
@@ -20,11 +21,13 @@ const dependentKeys: Array<Exclude<keyof MatterAssessment, "matterType">> = [
 function resetFrom(key: Exclude<keyof MatterAssessment, "matterType">) {
   switch (key) {
     case "subType":
-      return { subType: "", partyRole: "", transactionType: "", objective: "", urgency: "" };
+      return { subType: "", partyRole: "", transactionType: "", detailType: "", objective: "", urgency: "" };
     case "partyRole":
-      return { partyRole: "", transactionType: "", objective: "", urgency: "" };
+      return { partyRole: "", transactionType: "", detailType: "", objective: "", urgency: "" };
     case "transactionType":
-      return { transactionType: "", objective: "", urgency: "" };
+      return { transactionType: "", detailType: "", objective: "", urgency: "" };
+    case "detailType":
+      return { detailType: "", objective: "", urgency: "" };
     case "objective":
       return { objective: "", urgency: "" };
     case "urgency":
@@ -33,9 +36,7 @@ function resetFrom(key: Exclude<keyof MatterAssessment, "matterType">) {
 }
 
 export function MatterAssessmentPanel({ assessment, onChange }: MatterAssessmentPanelProps) {
-  const contextualGroups = assessment.matterType
-    ? [...(matterFlowOptions[assessment.matterType] ?? []), ...sharedMatterFollowUps]
-    : [];
+  const contextualGroups = assessment.matterType ? getMatterFlowOptions(assessment) : [];
 
   const sequentialGroups = contextualGroups.filter((group, index) => {
     if (index === 0) return true;
@@ -48,7 +49,7 @@ export function MatterAssessmentPanel({ assessment, onChange }: MatterAssessment
       <div>
         <p className="text-[11px] uppercase tracking-[0.26em] text-[var(--accent-soft)]">Matter Assessment</p>
         <p className="mt-1 text-sm text-[var(--text-secondary)]">
-          Start with the matter type. Each next selection will appear once the previous one is chosen.
+          Select the matter first. Each next choice appears only when the prior selection is made.
         </p>
       </div>
 
@@ -73,6 +74,7 @@ export function MatterAssessmentPanel({ assessment, onChange }: MatterAssessment
                             subType: "",
                             partyRole: "",
                             transactionType: "",
+                            detailType: "",
                             objective: "",
                             urgency: "",
                           }),

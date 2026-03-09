@@ -53,7 +53,9 @@ export function buildChatSummary(messages: ChatMessage[], assessment: MatterAsse
   return [
     `Matter type: ${assessment.matterType || "To be confirmed"}`,
     `Sub-type: ${assessment.subType || "To be confirmed"}`,
-    `Likely jurisdiction: ${assessment.transactionType || assessment.partyRole || "UAE context assumed unless clarified otherwise"}`,
+    `Role / side: ${assessment.partyRole || "To be confirmed"}`,
+    `Issue focus: ${assessment.transactionType || "To be confirmed"}`,
+    `Specific focus: ${assessment.detailType || "To be confirmed"}`,
     `Key facts shared: ${keyFacts}`,
     `User objective: ${assessment.objective || "To be confirmed"}`,
     `Urgency: ${assessment.urgency || "Not specified"}`,

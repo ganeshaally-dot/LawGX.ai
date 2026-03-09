@@ -31,10 +31,10 @@ export async function POST(request: Request) {
           typeof message.content === "string" &&
           message.content.trim().length > 0,
       )
-      .slice(-16)
+      .slice(-10)
       .map((message) => ({
         role: message.role,
-        content: message.content.trim(),
+        content: message.content.trim().slice(0, 2400),
       }));
 
     if (sanitizedInput.length === 0) {
@@ -49,6 +49,7 @@ export async function POST(request: Request) {
       model: "gpt-5-mini",
       instructions: lawgxSystemInstruction,
       input,
+      max_output_tokens: 700,
     });
 
     const output = response.output_text?.trim();

@@ -6,6 +6,7 @@ export const defaultMatterAssessment: MatterAssessment = {
   subType: "",
   partyRole: "",
   transactionType: "",
+  detailType: "",
   objective: "",
   urgency: "",
 };
@@ -22,7 +23,7 @@ export const matterTypeOptions = [
   "Other",
 ] as const;
 
-export const matterFlowOptions: Record<string, MatterOptionGroup[]> = {
+export const baseMatterFlowOptions: Record<string, MatterOptionGroup[]> = {
   "Corporate / Structuring": [
     {
       key: "subType",
@@ -214,7 +215,7 @@ export const matterFlowOptions: Record<string, MatterOptionGroup[]> = {
   ],
 };
 
-export const sharedMatterFollowUps: MatterOptionGroup[] = [
+const sharedMatterFollowUps: MatterOptionGroup[] = [
   {
     key: "objective",
     label: "Objective",
@@ -227,11 +228,132 @@ export const sharedMatterFollowUps: MatterOptionGroup[] = [
   },
 ];
 
+const detailTypeMaps: Record<string, Partial<Record<string, MatterOptionGroup>>> = {
+  "Corporate / Structuring": {
+    "New setup": {
+      key: "detailType",
+      label: "Focus",
+      options: ["Single entity setup", "Holding structure", "Founder allocation", "Licensing plan", "Other"],
+    },
+    "Restructuring": {
+      key: "detailType",
+      label: "Focus",
+      options: ["Entity migration", "Group simplification", "Governance update", "Shareholding change", "Other"],
+    },
+    "Shareholder change": {
+      key: "detailType",
+      label: "Focus",
+      options: ["Transfer of shares", "Investor entry", "Founder exit", "Cap table cleanup", "Other"],
+    },
+  },
+  "Contract Review": {
+    "Review existing draft": {
+      key: "detailType",
+      label: "Review Priority",
+      options: ["Risk review", "Commercial terms", "Governing law / dispute clause", "Termination rights", "Other"],
+    },
+    "Draft from scratch": {
+      key: "detailType",
+      label: "Drafting Focus",
+      options: ["Simple draft", "Negotiation-ready draft", "Counterparty-facing draft", "Urgent issue draft", "Other"],
+    },
+    "Breach / default review": {
+      key: "detailType",
+      label: "Current Issue",
+      options: ["Non-payment", "Non-performance", "Repudiation", "Late delivery", "Other"],
+    },
+  },
+  "Debt Recovery": {
+    "Unpaid invoice": {
+      key: "detailType",
+      label: "Current Step",
+      options: ["No notice sent", "Reminder sent", "Demand sent", "Negotiation ongoing", "Other"],
+    },
+    "Bounced cheque": {
+      key: "detailType",
+      label: "Cheque Status",
+      options: ["Dishonoured once", "Repeated dishonour", "Security cheque", "Bank details unclear", "Other"],
+    },
+  },
+  "Dispute / Claim": {
+    "Commercial dispute": {
+      key: "detailType",
+      label: "Dispute Focus",
+      options: ["Contract breach", "Non-payment", "Misrepresentation", "Termination dispute", "Other"],
+    },
+    "Arbitration-related issue": {
+      key: "detailType",
+      label: "Arbitration Focus",
+      options: ["Clause review", "Notice of arbitration", "Interim relief", "Award enforcement", "Other"],
+    },
+  },
+  Employment: {
+    Termination: {
+      key: "detailType",
+      label: "Termination Focus",
+      options: ["Cause / misconduct", "Notice period", "Final dues", "Restriction / non-compete", "Other"],
+    },
+    "Dues / benefits": {
+      key: "detailType",
+      label: "Claim Type",
+      options: ["Salary arrears", "Leave / gratuity", "Bonus / commission", "Repatriation / exit", "Other"],
+    },
+  },
+  "Real Estate": {
+    "Rental / lease issue": {
+      key: "detailType",
+      label: "Rental Focus",
+      options: ["Rent arrears", "Notice / eviction", "Deposit return", "Maintenance dispute", "Other"],
+    },
+    "Sale / purchase issue": {
+      key: "detailType",
+      label: "Sale / Purchase Focus",
+      options: ["SPA review", "Handover delay", "Payment default", "Defect / snagging", "Other"],
+    },
+  },
+  "Regulatory / Compliance": {
+    "Notice / response": {
+      key: "detailType",
+      label: "Response Type",
+      options: ["Regulator notice", "Internal breach issue", "Customer complaint", "Inspection response", "Other"],
+    },
+    Remediation: {
+      key: "detailType",
+      label: "Remediation Focus",
+      options: ["Policy update", "Governance fix", "Documentation cleanup", "Training / controls", "Other"],
+    },
+  },
+  "Send Notice": {
+    "Cease and desist notice": {
+      key: "detailType",
+      label: "Notice Focus",
+      options: ["Defamation", "IP / brand misuse", "Harassment", "Unfair competition", "Other"],
+    },
+    "Demand notice": {
+      key: "detailType",
+      label: "Demand Focus",
+      options: ["Outstanding payment", "Return of property", "Performance obligation", "Settlement pressure", "Other"],
+    },
+    "Breach of contract notice": {
+      key: "detailType",
+      label: "Breach Focus",
+      options: ["Non-payment", "Non-performance", "Delay", "Termination trigger", "Other"],
+    },
+  },
+};
+
+export function getMatterFlowOptions(assessment: MatterAssessment) {
+  const base = baseMatterFlowOptions[assessment.matterType] ?? [];
+  const detailGroup = detailTypeMaps[assessment.matterType]?.[assessment.transactionType || assessment.subType] ?? null;
+  return detailGroup ? [...base, detailGroup, ...sharedMatterFollowUps] : [...base, ...sharedMatterFollowUps];
+}
+
 export const assessmentFieldLabels: Record<keyof MatterAssessment, string> = {
   matterType: "Matter type",
   subType: "Sub-type",
   partyRole: "Role / side",
   transactionType: "Issue focus",
+  detailType: "Specific focus",
   objective: "Objective",
   urgency: "Urgency",
 };
@@ -248,7 +370,7 @@ Your tone must be polished, commercially aware, calm, and concise.
 Avoid generic chatbot wording.
 Speak like a professional legal advisory desk.
 
-Before giving conclusions, identify the user's matter type, likely jurisdiction, objective, urgency, relevant role or side, and any documents or counterparties involved.
+Before giving conclusions, identify the user's matter type, likely jurisdiction, objective, urgency, relevant role or side, specific issue focus, and any documents or counterparties involved.
 If these details are missing, ask short clarifying questions first.
 When the frontend sends a structured matter assessment, treat it as the user's preliminary assessment context.
 

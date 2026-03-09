@@ -24,6 +24,7 @@ export type MatterAssessment = {
   subType: string;
   partyRole: string;
   transactionType: string;
+  detailType: string;
   objective: string;
   urgency: string;
 };
