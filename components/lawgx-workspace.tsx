@@ -55,6 +55,12 @@ export function LawGXWorkspace() {
     };
   }, []);
 
+  function openConsultation() {
+    setIsActionsOpen(false);
+    setIsMobileSidebarOpen(false);
+    setActiveSupportMode("consultation");
+  }
+
   function handleSupportAction(kind: CTAActionKind) {
     setIsActionsOpen(false);
 
@@ -63,6 +69,11 @@ export function LawGXWorkspace() {
       if (whatsappAction && typeof window !== "undefined") {
         window.open(whatsappAction.href, "_blank", "noopener,noreferrer");
       }
+      return;
+    }
+
+    if (kind === "consultation") {
+      openConsultation();
       return;
     }
 
@@ -139,7 +150,7 @@ export function LawGXWorkspace() {
         ...current,
         createMessage(
           "assistant",
-          `${message}\n\nFor time-sensitive, contentious, or document-heavy matters, please use Book Consultation or Share with LawGX Lawyer.`,
+          `${message}\n\nThis is for legal information purposes only.\n\n[Book a consultation with LawGX Consultants and Experts](#book-consultation)`,
         ),
       ]);
     } finally {
@@ -199,7 +210,7 @@ export function LawGXWorkspace() {
               <div className="flex items-center gap-2">
                 <button
                   type="button"
-                  onClick={() => setActiveSupportMode("consultation")}
+                  onClick={openConsultation}
                   className="hidden rounded-2xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-4 py-2 text-sm font-medium text-white transition hover:bg-[var(--accent)]/16 sm:inline-flex"
                 >
                   Book Consultation
@@ -227,7 +238,7 @@ export function LawGXWorkspace() {
 
               {hasConversation ? (
                 <div className="max-w-4xl pb-2">
-                  <ChatPanel messages={messages} isLoading={isLoading} />
+                  <ChatPanel messages={messages} isLoading={isLoading} onOpenConsultation={openConsultation} />
                 </div>
               ) : (
                 <div className="rounded-[28px] border border-white/8 bg-[rgba(19,19,19,0.74)] px-5 py-6 sm:px-6">

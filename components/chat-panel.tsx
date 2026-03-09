@@ -3,6 +3,7 @@
 import { Copy, Scale } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import type { Components } from "react-markdown";
 import type { ChatMessage } from "@/lib/types";
 import { cn, formatTimestamp } from "@/lib/utils";
 import { LoadingDots } from "@/components/loading-dots";
@@ -10,9 +11,32 @@ import { LoadingDots } from "@/components/loading-dots";
 type ChatPanelProps = {
   messages: ChatMessage[];
   isLoading: boolean;
+  onOpenConsultation: () => void;
 };
 
-export function ChatPanel({ messages, isLoading }: ChatPanelProps) {
+export function ChatPanel({ messages, isLoading, onOpenConsultation }: ChatPanelProps) {
+  const markdownComponents: Components = {
+    a: ({ href, children, ...props }) => {
+      if (href === "#book-consultation") {
+        return (
+          <button
+            type="button"
+            onClick={onOpenConsultation}
+            className="mt-2 inline-flex items-center rounded-full border border-[var(--accent)]/35 bg-[var(--accent)]/12 px-4 py-2 text-sm font-medium text-white transition hover:bg-[var(--accent)]/18"
+          >
+            {children}
+          </button>
+        );
+      }
+
+      return (
+        <a href={href} {...props} className="text-[var(--accent-soft)] underline">
+          {children}
+        </a>
+      );
+    },
+  };
+
   return (
     <div className="space-y-6">
       {messages.map((message) => (
@@ -56,7 +80,9 @@ export function ChatPanel({ messages, isLoading }: ChatPanelProps) {
 
             {message.role === "assistant" ? (
               <div className="prose-lawgx">
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>{message.content}</ReactMarkdown>
+                <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
+                  {message.content}
+                </ReactMarkdown>
               </div>
             ) : (
               <p className="whitespace-pre-wrap text-sm leading-7 text-white">{message.content}</p>
