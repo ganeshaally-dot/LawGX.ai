@@ -80,15 +80,27 @@ function buildBookingDays(): BookingDay[] {
   return days;
 }
 
+function inferJurisdiction(assessment: MatterAssessment) {
+  const joined = [assessment.subType, assessment.transactionType, assessment.partyRole].join(" ").toLowerCase();
+
+  if (joined.includes("difc")) return "DIFC";
+  if (joined.includes("adgm")) return "ADGM";
+  if (joined.includes("free zone")) return "UAE free zone";
+  if (joined.includes("mainland")) return "UAE Mainland";
+  if (assessment.matterType) return "UAE / to be confirmed";
+  return "";
+}
+
 export function BookingFlowModal({ open, mode, messages, assessment, onClose }: SupportModalProps) {
   const bookingDays = useMemo(() => buildBookingDays(), []);
   const generatedSummary = useMemo(() => buildChatSummary(messages, assessment), [messages, assessment]);
+  const inferredJurisdiction = useMemo(() => inferJurisdiction(assessment), [assessment]);
   const [selectedDay, setSelectedDay] = useState<string>(bookingDays[0]?.iso ?? "");
   const [selectedTime, setSelectedTime] = useState<string>(timeSlots[0]);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [company, setCompany] = useState("");
-  const [jurisdiction, setJurisdiction] = useState(assessment.jurisdiction);
+  const [jurisdiction, setJurisdiction] = useState(inferredJurisdiction);
   const [matterSummary, setMatterSummary] = useState("");
   const [includeChatSummary, setIncludeChatSummary] = useState(true);
   const [lawyerSummary, setLawyerSummary] = useState(generatedSummary);
@@ -106,11 +118,11 @@ export function BookingFlowModal({ open, mode, messages, assessment, onClose }: 
 
   useEffect(() => {
     if (!open) return;
-    setJurisdiction(assessment.jurisdiction);
+    setJurisdiction(inferredJurisdiction);
     setLawyerSummary(generatedSummary);
     setStatus("idle");
     setErrorMessage("");
-  }, [open, assessment.jurisdiction, generatedSummary, mode]);
+  }, [open, inferredJurisdiction, generatedSummary, mode]);
 
   const selectedDate = bookingDays.find((day) => day.iso === selectedDay);
   const isConsultation = mode === "consultation";

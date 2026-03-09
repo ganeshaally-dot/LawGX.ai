@@ -1,6 +1,6 @@
 import OpenAI from "openai";
 import { NextResponse } from "next/server";
-import { lawgxSystemInstruction } from "@/lib/constants";
+import { defaultMatterAssessment, lawgxSystemInstruction } from "@/lib/constants";
 import type { ChatMessage, MatterAssessment } from "@/lib/types";
 import { buildAssessmentContext } from "@/lib/utils";
 
@@ -22,12 +22,7 @@ export async function POST(request: Request) {
   try {
     const body = (await request.json()) as { messages?: ChatMessage[]; assessment?: MatterAssessment };
     const messages = Array.isArray(body.messages) ? body.messages : [];
-    const assessmentContext = buildAssessmentContext(body.assessment ?? {
-      matterType: "",
-      jurisdiction: "",
-      objective: "",
-      urgency: "",
-    });
+    const assessmentContext = buildAssessmentContext(body.assessment ?? defaultMatterAssessment);
 
     const sanitizedInput = messages
       .filter(

@@ -1,7 +1,7 @@
 "use client";
 
 import type { FormEvent, KeyboardEvent } from "react";
-import { ArrowUp } from "lucide-react";
+import { ArrowUp, MessageSquareText } from "lucide-react";
 
 type ChatComposerProps = {
   value: string;
@@ -21,10 +21,16 @@ export function ChatComposer({
   return (
     <form
       onSubmit={onSubmit}
-      className="rounded-[30px] border border-[var(--accent)]/18 bg-[linear-gradient(180deg,rgba(18,18,18,0.98),rgba(12,12,12,0.98))] p-3 shadow-[0_24px_70px_rgba(0,0,0,0.42)]"
+      className="rounded-[30px] border border-[var(--accent)]/22 bg-[linear-gradient(180deg,rgba(20,20,20,0.99),rgba(12,12,12,0.99))] p-3 shadow-[0_24px_70px_rgba(0,0,0,0.42)]"
     >
-      <div className="px-3 pb-2 pt-1">
-        <p className="text-[11px] uppercase tracking-[0.24em] text-[var(--accent-soft)]">Initial Matter Description</p>
+      <div className="mb-3 flex items-center gap-3 rounded-[22px] border border-[var(--accent)]/16 bg-[rgba(198,163,102,0.06)] px-3 py-3">
+        <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-[var(--accent)]/25 bg-[rgba(198,163,102,0.1)] text-[var(--accent)]">
+          <MessageSquareText className="h-4 w-4" />
+        </div>
+        <div>
+          <p className="text-sm font-semibold text-white">Start your message here</p>
+          <p className="text-xs text-[var(--text-secondary)]">Describe the facts, documents, counterparties, and the outcome you want.</p>
+        </div>
       </div>
 
       <div className="flex items-end gap-3 rounded-[24px] border border-white/8 bg-[rgba(5,5,5,0.55)] px-2 py-2">
@@ -32,10 +38,10 @@ export function ChatComposer({
           value={value}
           onChange={(event) => onChange(event.target.value)}
           onKeyDown={onKeyDown}
-          placeholder="Set out the facts, counterparties, documents involved, and the outcome you are seeking..."
+          placeholder="Example: We are a Dubai free zone company. A customer has not paid three invoices and I need to know the best next step."
           rows={1}
           disabled={disabled}
-          className="max-h-56 min-h-[78px] flex-1 resize-y bg-transparent px-3 py-3 text-[15px] leading-7 text-white outline-none placeholder:text-[var(--text-muted)]"
+          className="max-h-56 min-h-[92px] flex-1 resize-y bg-transparent px-3 py-3 text-[15px] leading-7 text-white outline-none placeholder:text-[var(--text-muted)]"
         />
 
         <button

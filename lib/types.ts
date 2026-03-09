@@ -21,7 +21,15 @@ export type CTAAction = {
 
 export type MatterAssessment = {
   matterType: string;
-  jurisdiction: string;
+  subType: string;
+  partyRole: string;
+  transactionType: string;
   objective: string;
   urgency: string;
+};
+
+export type MatterOptionGroup = {
+  key: Exclude<keyof MatterAssessment, "matterType">;
+  label: string;
+  options: string[];
 };
