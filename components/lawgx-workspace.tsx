@@ -168,7 +168,7 @@ export function LawGXWorkspace() {
 
   return (
     <>
-      <div className="relative grid min-h-[calc(100vh-4.8rem)] overflow-hidden rounded-[28px] border border-white/8 bg-[rgba(9,9,9,0.9)] shadow-[0_32px_110px_rgba(0,0,0,0.52)] backdrop-blur-xl xl:grid-cols-[auto_minmax(0,1fr)]">
+      <div className="relative grid min-h-[100dvh] overflow-hidden border-y border-white/8 bg-[rgba(9,9,9,0.9)] shadow-[0_32px_110px_rgba(0,0,0,0.52)] backdrop-blur-xl sm:min-h-[calc(100vh-4.8rem)] sm:rounded-[28px] sm:border xl:grid-cols-[auto_minmax(0,1fr)]">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(198,163,102,0.08),transparent_20%),radial-gradient(circle_at_bottom_right,rgba(54,54,54,0.14),transparent_26%)]" />
 
         <Sidebar
@@ -186,12 +186,12 @@ export function LawGXWorkspace() {
           actions={supportActions}
         />
 
-        <div className="relative flex min-h-[76vh] flex-col bg-[linear-gradient(180deg,rgba(17,17,17,0.96),rgba(10,10,10,0.94))] xl:min-h-full">
+        <div className="relative flex min-h-[100dvh] flex-col bg-[linear-gradient(180deg,rgba(17,17,17,0.96),rgba(10,10,10,0.94))] sm:min-h-[76vh] xl:min-h-full">
           <div className="border-b border-white/8 px-4 py-3 sm:px-5">
             <div className="flex items-center justify-between gap-4">
               <div className="min-w-0">
                 <p className="text-[11px] uppercase tracking-[0.32em] text-[var(--accent-soft)]">LawGX Advisory Interface</p>
-                <p className="mt-1 truncate text-sm text-[var(--text-secondary)] sm:text-base">
+                <p className="mt-1 text-sm leading-6 text-[var(--text-secondary)] sm:truncate sm:text-base">
                   Preliminary legal guidance and structured matter assessment, with UAE context assumed unless clarified otherwise.
                 </p>
               </div>
@@ -221,12 +221,12 @@ export function LawGXWorkspace() {
             </div>
           </div>
 
-          <div ref={viewportRef} className="scrollbar-thin flex-1 overflow-y-auto px-4 pb-72 pt-5 sm:px-6 sm:pb-76">
-            <div className="mx-auto max-w-5xl space-y-5">
+          <div ref={viewportRef} className="scrollbar-thin flex-1 overflow-y-auto px-4 py-5 sm:px-6 sm:pb-10">
+            <div className="mx-auto max-w-5xl space-y-5 pb-6">
               <MatterAssessmentPanel assessment={assessment} onChange={setAssessment} />
 
               {hasConversation ? (
-                <div className="max-w-4xl">
+                <div className="max-w-4xl pb-2">
                   <ChatPanel messages={messages} isLoading={isLoading} />
                 </div>
               ) : (
@@ -240,7 +240,7 @@ export function LawGXWorkspace() {
             </div>
           </div>
 
-          <div className="absolute inset-x-0 bottom-0 border-t border-white/8 bg-[linear-gradient(180deg,rgba(10,10,10,0.14),rgba(10,10,10,0.98)_22%)] px-3 pb-3 pt-5 backdrop-blur-xl sm:px-5 sm:pb-5">
+          <div className="sticky bottom-0 border-t border-white/8 bg-[linear-gradient(180deg,rgba(10,10,10,0.2),rgba(10,10,10,0.98)_20%)] px-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-4 backdrop-blur-xl sm:px-5 sm:pb-5">
             <div className="mx-auto max-w-5xl">
               <div className="mb-3 flex flex-col gap-2 text-xs text-[var(--text-muted)] sm:flex-row sm:items-center sm:justify-between">
                 <p>This interface provides preliminary guidance only and does not constitute legal advice.</p>
@@ -254,7 +254,7 @@ export function LawGXWorkspace() {
                 disabled={isLoading}
               />
               <div className="mt-3 flex items-center justify-between gap-4 text-xs text-[var(--text-muted)]">
-                <p>Consultation and lawyer review options remain available from the sidebar and the three-dot menu.</p>
+                <p className="max-w-[72%] sm:max-w-none">Consultation and lawyer review options remain available from the sidebar and the three-dot menu.</p>
                 <p>{formatTimestamp(new Date().toISOString())}</p>
               </div>
             </div>

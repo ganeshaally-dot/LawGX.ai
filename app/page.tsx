@@ -13,7 +13,7 @@ export default function Home() {
     <main className="relative min-h-screen overflow-hidden bg-transparent">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(198,163,102,0.08),transparent_22%),radial-gradient(circle_at_right,rgba(70,70,70,0.1),transparent_24%)]" />
 
-      <section className="relative px-2 pb-4 pt-2 sm:px-4 sm:pb-5 sm:pt-4 lg:px-6">
+      <section className="relative px-0 pb-0 pt-0 sm:px-4 sm:pb-5 sm:pt-4 lg:px-6">
         <div className="mx-auto max-w-[1600px]">
           <LawGXWorkspace />
         </div>

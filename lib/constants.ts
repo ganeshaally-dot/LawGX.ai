@@ -17,6 +17,7 @@ export const matterAssessmentOptions = {
     "Employment",
     "Real Estate",
     "Regulatory / Compliance",
+    "Send Notice",
     "Other",
   ],
   jurisdiction: ["UAE Mainland", "DIFC", "ADGM", "Cross-border", "Not sure"],
@@ -52,6 +53,7 @@ Useful areas include:
 - employment-related business issues
 - regulatory and compliance concerns
 - real estate and cross-border business matters
+- notices, pre-action letters, and formal communications
 
 Use practical, structured responses.
 Where helpful, organize the answer under short headings such as:
