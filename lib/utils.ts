@@ -30,6 +30,14 @@ export function buildAssessmentContext(assessment: MatterAssessment) {
   return lines.length > 0 ? `Structured matter assessment:\n${lines.join("\n")}` : "";
 }
 
+export function buildAssessmentUserMessage(assessment: MatterAssessment) {
+  const lines = (Object.entries(assessment) as Array<[keyof MatterAssessment, string]>)
+    .filter(([, value]) => value.trim().length > 0)
+    .map(([key, value]) => `${assessmentFieldLabels[key]}: ${value}`);
+
+  return lines.length > 0 ? lines.join("\n") : "";
+}
+
 export function buildChatSummary(messages: ChatMessage[], assessment: MatterAssessment) {
   const userMessages = messages
     .filter((message) => message.role === "user")

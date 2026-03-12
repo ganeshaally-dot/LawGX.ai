@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from "react";
+import { useEffect, useState, type FormEvent, type KeyboardEvent } from "react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { defaultMatterAssessment, supportActions } from "@/lib/constants";
 import type { ChatMessage, CTAActionKind, MatterAssessment } from "@/lib/types";
-import { buildAssessmentContext, createMessage, formatTimestamp } from "@/lib/utils";
+import { buildAssessmentContext, buildAssessmentUserMessage, createMessage, formatTimestamp } from "@/lib/utils";
 import { BookingFlowModal } from "@/components/booking-flow-modal";
 import { ChatComposer } from "@/components/chat-composer";
 import { ChatPanel } from "@/components/chat-panel";
@@ -22,21 +23,9 @@ export function LawGXWorkspace() {
   const [isActionsOpen, setIsActionsOpen] = useState(false);
   const [activeSupportMode, setActiveSupportMode] = useState<Exclude<CTAActionKind, "whatsapp"> | null>(null);
   const [isMobileComposer, setIsMobileComposer] = useState(false);
-  const viewportRef = useRef<HTMLDivElement>(null);
-  const abortControllerRef = useRef<AbortController | null>(null);
-  const activeRequestIdRef = useRef(0);
+  const [showManualEntry, setShowManualEntry] = useState(false);
 
   const hasConversation = messages.length > 0;
-
-  useEffect(() => {
-    const viewport = viewportRef.current;
-    if (!viewport) return;
-
-    viewport.scrollTo({
-      top: viewport.scrollHeight,
-      behavior: "smooth",
-    });
-  }, [messages, isLoading]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -47,12 +36,6 @@ export function LawGXWorkspace() {
 
     mediaQuery.addEventListener("change", update);
     return () => mediaQuery.removeEventListener("change", update);
-  }, []);
-
-  useEffect(() => {
-    return () => {
-      abortControllerRef.current?.abort();
-    };
   }, []);
 
   function openConsultation() {
@@ -87,12 +70,6 @@ export function LawGXWorkspace() {
 
     const nextUserMessage = createMessage("user", content);
     const nextMessages = [...messages, nextUserMessage];
-    const requestId = activeRequestIdRef.current + 1;
-    const controller = new AbortController();
-
-    activeRequestIdRef.current = requestId;
-    abortControllerRef.current?.abort();
-    abortControllerRef.current = controller;
 
     setMessages(nextMessages);
     setInput("");
@@ -112,7 +89,6 @@ export function LawGXWorkspace() {
           assessment,
           assessmentContext: buildAssessmentContext(assessment),
         }),
-        signal: controller.signal,
       });
 
       let payload: { reply?: string; error?: string } = {};
@@ -127,24 +103,12 @@ export function LawGXWorkspace() {
         throw new Error(payload.error || "Unable to reach the LawGX advisory interface.");
       }
 
-      if (activeRequestIdRef.current !== requestId) {
-        return;
-      }
-
       setMessages((current) => [...current, createMessage("assistant", payload.reply ?? "")]);
     } catch (error) {
-      if (controller.signal.aborted) {
-        return;
-      }
-
       const message =
         error instanceof Error
           ? error.message
           : "Something went wrong while contacting LawGX AI.";
-
-      if (activeRequestIdRef.current !== requestId) {
-        return;
-      }
 
       setMessages((current) => [
         ...current,
@@ -154,11 +118,14 @@ export function LawGXWorkspace() {
         ),
       ]);
     } finally {
-      if (activeRequestIdRef.current === requestId) {
-        setIsLoading(false);
-        abortControllerRef.current = null;
-      }
+      setIsLoading(false);
     }
+  }
+
+  function submitAssessmentAnswers() {
+    const summary = buildAssessmentUserMessage(assessment);
+    if (!summary || isLoading) return;
+    void submitMessage(summary);
   }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -232,17 +199,22 @@ export function LawGXWorkspace() {
             </div>
           </div>
 
-          <div ref={viewportRef} className="scrollbar-thin flex-1 overflow-y-auto px-4 py-5 sm:px-6 sm:pb-10">
+          <div className="flex-1 overflow-y-auto px-4 py-5 sm:px-6 sm:pb-10">
             <div className="mx-auto max-w-5xl space-y-6 pb-8">
-              <MatterAssessmentPanel assessment={assessment} onChange={setAssessment} />
+              <MatterAssessmentPanel
+                assessment={assessment}
+                onChange={setAssessment}
+                onSubmitSelection={submitAssessmentAnswers}
+                disabled={isLoading}
+              />
 
               {hasConversation ? (
                 <div className="max-w-4xl pb-12">
                   <ChatPanel messages={messages} isLoading={isLoading} onOpenConsultation={openConsultation} />
                 </div>
               ) : (
-                <div className="flex min-h-[26vh] items-center justify-center text-center text-[15px] text-[var(--text-muted)]">
-                  <p>Ask anything.</p>
+                <div className="flex min-h-[28vh] items-center justify-center text-center text-[15px] text-[var(--text-muted)]">
+                  <p>Choose the relevant options above to continue.</p>
                 </div>
               )}
             </div>
@@ -252,15 +224,30 @@ export function LawGXWorkspace() {
             <div className="mx-auto max-w-5xl">
               <div className="mb-3 flex flex-col gap-2 text-xs text-[var(--text-muted)] sm:flex-row sm:items-center sm:justify-between">
                 <p>This interface provides preliminary guidance only and does not constitute legal advice.</p>
-                <p>{isMobileComposer ? "Use Send or the mic button to submit your message." : "Press Enter to send on desktop. Shift + Enter adds a new line."}</p>
+                <button
+                  type="button"
+                  onClick={() => setShowManualEntry((current) => !current)}
+                  className="inline-flex items-center gap-2 text-left text-[var(--text-secondary)] transition hover:text-white"
+                >
+                  {showManualEntry ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                  {showManualEntry ? "Hide manual entry" : "Type manually instead"}
+                </button>
               </div>
-              <ChatComposer
-                value={input}
-                onChange={setInput}
-                onSubmit={handleSubmit}
-                onKeyDown={handleComposerKeyDown}
-                disabled={isLoading}
-              />
+
+              {showManualEntry ? (
+                <ChatComposer
+                  value={input}
+                  onChange={setInput}
+                  onSubmit={handleSubmit}
+                  onKeyDown={handleComposerKeyDown}
+                  disabled={isLoading}
+                />
+              ) : (
+                <div className="rounded-[26px] border border-white/8 bg-[rgba(16,16,16,0.8)] px-4 py-4 text-sm text-[var(--text-secondary)]">
+                  Use the guided buttons above to answer without typing.
+                </div>
+              )}
+
               <div className="mt-3 flex items-center justify-between gap-4 text-xs text-[var(--text-muted)]">
                 <p className="max-w-[72%] sm:max-w-none">Consultation and lawyer review options remain available from the sidebar and the three-dot menu.</p>
                 <p>{formatTimestamp(new Date().toISOString())}</p>

@@ -1,12 +1,15 @@
 "use client";
 
+import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { getMatterFlowOptions, matterTypeOptions } from "@/lib/constants";
+import { assessmentFieldLabels, getMatterFlowOptions, matterTypeOptions } from "@/lib/constants";
 import type { MatterAssessment } from "@/lib/types";
 
 type MatterAssessmentPanelProps = {
   assessment: MatterAssessment;
   onChange: (next: MatterAssessment) => void;
+  onSubmitSelection: () => void;
+  disabled: boolean;
 };
 
 const dependentKeys: Array<Exclude<keyof MatterAssessment, "matterType">> = [
@@ -35,7 +38,7 @@ function resetFrom(key: Exclude<keyof MatterAssessment, "matterType">) {
   }
 }
 
-export function MatterAssessmentPanel({ assessment, onChange }: MatterAssessmentPanelProps) {
+export function MatterAssessmentPanel({ assessment, onChange, onSubmitSelection, disabled }: MatterAssessmentPanelProps) {
   const contextualGroups = assessment.matterType ? getMatterFlowOptions(assessment) : [];
 
   const sequentialGroups = contextualGroups.filter((group, index) => {
@@ -44,12 +47,15 @@ export function MatterAssessmentPanel({ assessment, onChange }: MatterAssessment
     return Boolean(assessment[previousGroup.key]);
   });
 
+  const selectedSummary = (Object.entries(assessment) as Array<[keyof MatterAssessment, string]>).filter(([, value]) => value.trim());
+  const canSubmit = Boolean(assessment.matterType && selectedSummary.length >= 2 && !disabled);
+
   return (
     <section className="rounded-[28px] border border-white/8 bg-[rgba(20,20,20,0.78)] p-4 sm:p-5">
       <div>
-        <p className="text-[11px] uppercase tracking-[0.26em] text-[var(--accent-soft)]">Matter Assessment</p>
+        <p className="text-[11px] uppercase tracking-[0.26em] text-[var(--accent-soft)]">Guided Matter Assessment</p>
         <p className="mt-1 text-sm text-[var(--text-secondary)]">
-          Select the matter first. Each next choice appears only when the prior selection is made.
+          Answer by clicking the options below. LawGX AI will use your selections directly.
         </p>
       </div>
 
@@ -131,6 +137,36 @@ export function MatterAssessmentPanel({ assessment, onChange }: MatterAssessment
             </div>
           </div>
         ))}
+
+        {selectedSummary.length > 0 ? (
+          <div className="rounded-[24px] border border-[var(--accent)]/18 bg-[rgba(198,163,102,0.06)] p-4 animate-fade-up">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-soft)]">Selected Answers</p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {selectedSummary.map(([key, value]) => (
+                <span
+                  key={key}
+                  className="rounded-full border border-[var(--accent)]/18 bg-black/20 px-3 py-2 text-xs text-[var(--text-secondary)]"
+                >
+                  {assessmentFieldLabels[key]}: {value}
+                </span>
+              ))}
+            </div>
+            <button
+              type="button"
+              onClick={onSubmitSelection}
+              disabled={!canSubmit}
+              className={cn(
+                "mt-4 inline-flex items-center gap-2 rounded-full px-4 py-3 text-sm font-semibold transition",
+                canSubmit
+                  ? "bg-[var(--accent)] text-slate-950 hover:brightness-105"
+                  : "cursor-not-allowed bg-white/10 text-[var(--text-muted)]",
+              )}
+            >
+              Continue with selected answers
+              <ArrowRight className="h-4 w-4" />
+            </button>
+          </div>
+        ) : null}
       </div>
     </section>
   );
