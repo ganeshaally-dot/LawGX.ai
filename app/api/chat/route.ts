@@ -7,6 +7,26 @@ import { buildAssessmentContext } from "@/lib/utils";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+function extractResponseText(response: OpenAI.Responses.Response) {
+  const direct = response.output_text?.trim();
+  if (direct) return direct;
+
+  const fragments: string[] = [];
+
+  for (const item of response.output ?? []) {
+    if (item.type !== "message") continue;
+
+    for (const contentItem of item.content ?? []) {
+      if (contentItem.type === "output_text" && contentItem.text?.trim()) {
+        fragments.push(contentItem.text.trim());
+      }
+    }
+  }
+
+  const combined = fragments.join("\n\n").trim();
+  return combined || "";
+}
+
 export async function POST(request: Request) {
   if (!process.env.OPENAI_API_KEY) {
     return NextResponse.json(
@@ -52,9 +72,11 @@ export async function POST(request: Request) {
       max_output_tokens: 700,
     });
 
-    const output = response.output_text?.trim();
+    const output = extractResponseText(response);
 
     if (!output) {
+      console.error("LawGX chat route received empty response payload:", JSON.stringify(response, null, 2));
+
       return NextResponse.json(
         { error: "The assistant did not return any text output." },
         { status: 502 },
