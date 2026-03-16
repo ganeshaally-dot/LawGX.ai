@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { assessmentFieldLabels } from "@/lib/constants";
-import type { ChatMessage, MatterAssessment, MessageRole } from "@/lib/types";
+import type { ChatMessage, FollowUpGroup, MatterAssessment, MessageRole } from "@/lib/types";
 
 export function cn(...inputs: ClassValue[]) {
   return clsx(inputs);
@@ -70,4 +70,35 @@ export function buildChatSummary(messages: ChatMessage[], assessment: MatterAsse
     `Documents mentioned: ${uniqueDocuments.length ? uniqueDocuments.join(", ") : "None clearly identified"}`,
     `Suggested consultation focus: ${consultationFocus}`,
   ].join("\n");
+}
+
+const followUpBlockPattern = /<<<FOLLOW_UP\s*([\s\S]*?)>>>/g;
+
+export function parseAssistantFollowUps(content: string): {
+  displayContent: string;
+  followUps: FollowUpGroup[];
+} {
+  const followUps: FollowUpGroup[] = [];
+
+  const displayContent = content
+    .replace(followUpBlockPattern, (_, block: string) => {
+      const promptMatch = block.match(/Prompt:\s*(.+)/i);
+      const optionsMatch = block.match(/Options:\s*(.+)/i);
+
+      const prompt = promptMatch?.[1]?.trim() ?? "";
+      const options = optionsMatch?.[1]
+        ?.split("|")
+        .map((option) => option.trim())
+        .filter(Boolean) ?? [];
+
+      if (prompt && options.length > 0) {
+        followUps.push({ prompt, options });
+      }
+
+      return "";
+    })
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+
+  return { displayContent, followUps };
 }

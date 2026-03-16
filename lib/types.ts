@@ -9,6 +9,11 @@ export type ChatMessage = {
   timestamp: string;
 };
 
+export type FollowUpGroup = {
+  prompt: string;
+  options: string[];
+};
+
 export type CTAActionKind = "consultation" | "upload" | "whatsapp" | "proposal";
 
 export type CTAAction = {

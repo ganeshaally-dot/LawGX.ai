@@ -128,6 +128,11 @@ export function LawGXWorkspace() {
     void submitMessage(summary);
   }
 
+  function handleFollowUpSelection(prompt: string, option: string) {
+    if (isLoading) return;
+    void submitMessage(`${prompt}: ${option}`);
+  }
+
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     void submitMessage(input);
@@ -210,11 +215,16 @@ export function LawGXWorkspace() {
 
               {hasConversation ? (
                 <div className="max-w-4xl pb-12">
-                  <ChatPanel messages={messages} isLoading={isLoading} onOpenConsultation={openConsultation} />
+                  <ChatPanel
+                    messages={messages}
+                    isLoading={isLoading}
+                    onOpenConsultation={openConsultation}
+                    onSelectFollowUp={handleFollowUpSelection}
+                  />
                 </div>
               ) : (
                 <div className="flex min-h-[28vh] items-center justify-center text-center text-[15px] text-[var(--text-muted)]">
-                  <p>Choose the relevant options above to continue.</p>
+                  <p>Choose the relevant options above to continue without typing.</p>
                 </div>
               )}
             </div>
@@ -244,7 +254,7 @@ export function LawGXWorkspace() {
                 />
               ) : (
                 <div className="rounded-[26px] border border-white/8 bg-[rgba(16,16,16,0.8)] px-4 py-4 text-sm text-[var(--text-secondary)]">
-                  Use the guided buttons above to answer without typing.
+                  Use the guided buttons above. When LawGX AI needs confirmations, it will present clickable answers here.
                 </div>
               )}
 

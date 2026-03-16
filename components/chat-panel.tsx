@@ -5,16 +5,19 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import type { Components } from "react-markdown";
 import type { ChatMessage } from "@/lib/types";
-import { cn, formatTimestamp } from "@/lib/utils";
+import { cn, formatTimestamp, parseAssistantFollowUps } from "@/lib/utils";
 import { LoadingDots } from "@/components/loading-dots";
 
 type ChatPanelProps = {
   messages: ChatMessage[];
   isLoading: boolean;
   onOpenConsultation: () => void;
+  onSelectFollowUp: (prompt: string, option: string) => void;
 };
 
-export function ChatPanel({ messages, isLoading, onOpenConsultation }: ChatPanelProps) {
+export function ChatPanel({ messages, isLoading, onOpenConsultation, onSelectFollowUp }: ChatPanelProps) {
+  const lastAssistantId = [...messages].reverse().find((message) => message.role === "assistant")?.id;
+
   const markdownComponents: Components = {
     a: ({ href, children, ...props }) => {
       if (href === "#book-consultation") {
@@ -39,7 +42,15 @@ export function ChatPanel({ messages, isLoading, onOpenConsultation }: ChatPanel
 
   return (
     <div className="space-y-6">
-      {messages.map((message) => (
+      {messages.map((message) => {
+        const { displayContent, followUps } =
+          message.role === "assistant"
+            ? parseAssistantFollowUps(message.content)
+            : { displayContent: message.content, followUps: [] };
+        const shouldShowFollowUps =
+          message.role === "assistant" && message.id === lastAssistantId && followUps.length > 0;
+
+        return (
         <article
           key={message.id}
           className={cn(
@@ -81,15 +92,41 @@ export function ChatPanel({ messages, isLoading, onOpenConsultation }: ChatPanel
             {message.role === "assistant" ? (
               <div className="prose-lawgx">
                 <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
-                  {message.content}
+                  {displayContent || "Please choose one of the guided answers below so I can refine the preliminary view."}
                 </ReactMarkdown>
               </div>
             ) : (
               <p className="whitespace-pre-wrap text-sm leading-7 text-white">{message.content}</p>
             )}
+
+            {shouldShowFollowUps ? (
+              <div className="mt-5 space-y-4 border-t border-white/8 pt-4">
+                {followUps.map((group) => (
+                  <div key={group.prompt} className="space-y-3">
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--text-muted)]">
+                      {group.prompt}
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {group.options.map((option) => (
+                        <button
+                          key={`${group.prompt}-${option}`}
+                          type="button"
+                          onClick={() => onSelectFollowUp(group.prompt, option)}
+                          disabled={isLoading}
+                          className="rounded-full border border-[var(--accent)]/22 bg-[var(--accent)]/8 px-4 py-2 text-sm text-white transition hover:border-[var(--accent)]/35 hover:bg-[var(--accent)]/14 disabled:cursor-not-allowed disabled:opacity-60"
+                        >
+                          {option}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : null}
           </div>
         </article>
-      ))}
+        );
+      })}
 
       {isLoading ? (
         <article className="flex justify-start">
