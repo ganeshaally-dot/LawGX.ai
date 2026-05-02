@@ -7,6 +7,9 @@ function ArrowIcon() {
   );
 }
 
+const whatsappDiscoveryHref =
+  "https://wa.me/971553716225?text=Hello%20LawGX%2C%20I%20would%20like%20to%20book%20a%20discovery%20call.";
+
 export default function Home() {
   return (
     <main>
@@ -29,7 +32,7 @@ export default function Home() {
               <a href="#contact">Contact</a>
             </li>
           </ul>
-          <a href="#contact" className="nav-cta">
+          <a href={whatsappDiscoveryHref} className="nav-cta" target="_blank" rel="noreferrer">
             Book discovery call
           </a>
         </div>
@@ -45,7 +48,7 @@ export default function Home() {
             LawGX.ai builds custom AI agents that take over the repetitive, high-volume workflows your team spends most of their hours on - across HR, sales operations, compliance, customer support, and procurement. Discovery sprint to deployed agent in weeks, not quarters.
           </p>
           <div className="hero-cta-row">
-            <a href="#contact" className="btn-primary">
+            <a href={whatsappDiscoveryHref} className="btn-primary" target="_blank" rel="noreferrer">
               Book a discovery call
               <ArrowIcon />
             </a>
@@ -332,7 +335,7 @@ export default function Home() {
           <p>
             We&apos;re working with a small cohort of UAE and GCC mid-market firms as our first production deployments. Discounted discovery sprints, founder-led engagements, deep partnership.
           </p>
-          <a href="mailto:hello@lawgx.ai?subject=Discovery%20Call%20-%20LawGX.ai" className="pilot-cta">
+          <a href={whatsappDiscoveryHref} className="pilot-cta" target="_blank" rel="noreferrer">
             Book a discovery call
             <ArrowIcon />
           </a>
